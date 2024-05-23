@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="icon" href="/images/favicon.ico" />
+
+    <title>Nuevo informe de error</title>
+</head>
+
+<body>
+    <div id="contenidoPagina">
+        <div class="header-flex">
+            <a href="/"><img src="/images/BugOpsLogoTransparentFinal.png" alt="BugOps" class="logo-peq-esquina" /></a>
+            <div sec:authorize="isAuthenticated()" class="menu-usuario">
+                <div>
+                    Hola, <span sec:authentication="name" style="display: inline"></span>
+                    <span style="font-size: 1.5em">🙍🏼</span>
+                </div>
+                <form th:action="@{/perform_logout}" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <input type="submit" value="Cerrar sesión" class="btn btn-secondary" />
+                </form>
+            </div>
+            <div sec:authorize="!isAuthenticated()">
+                Error: esta vista no pudo recuperar el usuario autenticado!
+            </div>
+        </div>
+
+        <div class="menu">
+            <a href="#" class="enlace-ayuda" onclick="toggleNav()">Ayuda</a>👉🏼
+        </div>
+
+        <div class="body-boxed-wide" style="width: 100%">
+            <a href="javascript:history.back()" class="enlace-atras no-imprimir">⬅️ Atrás</a>
+            <h1>Nuevo informe de error</h1>
+            <div th:if="${error}" class="alert alert-danger" role="alert">
+                <p th:text="${error}"></p>
+            </div>
+            <form action="/createBugReport" method="post" class="formulario" enctype="multipart/form-data">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <div sec:authorize="hasRole('GESTOR')" class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="titulo">Título</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="descripcion">Descripción</label>
+                            <textarea class="form-control" id="descripcion" name="descripcion" rows="8"
+                                required></textarea>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="proyecto">Proyecto</label>
+                            <select class="form-control" id="proyecto" name="proyecto" required>
+                                <option value>Selecciona un proyecto</option>
+                                <option th:each="nombreProyecto : ${nombresProyecto}" th:value="${nombreProyecto}"
+                                    th:text="${nombreProyecto}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="prioridad">Prioridad</label>
+                            <select class="form-control" id="prioridad" name="prioridad">
+                                <option th:each="prioridad : ${prioridades}" th:value="${prioridad}"
+                                    th:text="${prioridad}" th:selected="${prioridad == 'Media'}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="estado">Estado</label>
+                            <select class="form-control" id="estado" name="estado">
+                                <option th:each="estado : ${estados}"
+                                    th:if="${estado != 'Solucionado' and estado != 'Descartado'}" th:value="${estado}"
+                                    th:text="${estado}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="programmerUsername">Asignar a</label>
+                            <select class="form-control" id="programmerUsername" name="programmerUsername">
+                                <option value>[Ninguno]</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div sec:authorize="!hasRole('GESTOR')" class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="titulo">Título</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="descripcion">Descripción</label>
+                            <textarea class="form-control" id="descripcion" name="descripcion" rows="8"
+                                required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="proyecto">Proyecto</label>
+                            <select class="form-control" id="proyecto" name="proyecto" required>
+                                <option value>Selecciona un proyecto</option>
+                                <option th:each="nombreProyecto : ${nombresProyecto}" th:value="${nombreProyecto}"
+                                    th:text="${nombreProyecto}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <input type="hidden" id="prioridad" name="prioridad" value="Media" />
+                    <input type="hidden" id="estado" name="estado" value="Recibido" />
+                </div>
+                <input type="file" id="adjunto" name="adjunto" onchange="updateFileDetails()" style="display: none" />
+                <button type="button" class="btn btn-info" onclick="document.getElementById('adjunto').click();">
+                    Añadir adjunto
+                </button>
+                <input type="hidden" id="rutaArchivo" name="rutaArchivo" />
+                <input type="hidden" id="nombreArchivo" name="nombreArchivo" />
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit" class="btn btn-primary">Crear
+                    informe</button>
+                <a href="/" class="btn btn-danger">Descartar</a>
+                <div id="fileInfo" class="mt-3"></div>
+            </form>
+
+            <div id="guiaUsuario" class="guia-lateral">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                <h3>Reportando un nuevo informe de error</h3>
+                <p>Para reportar un nuevo informe de error, sigue estos pasos:</p>
+                <ol>
+                    <li>Ingresa un título descriptivo del error.</li>
+                    <li>Describe el error con la mayor cantidad de detalles posible, así como los pasos que hay que
+                        reproducir para llegar hasta él.</li>
+                    <li>Selecciona el proyecto al que pertenece el error.</li>
+                    <li sec:authorize="hasRole('GESTOR')">Selecciona la prioridad del error.</li>
+                    <li sec:authorize="hasRole('GESTOR')">Selecciona el estado del error. Será común poner un error
+                        nuevo como Recibido, pero pueden darse otros escenarios. Por ejemplo, puede interesar
+                        asignar ya un error urgente y ponerlo En cola.</li>
+                    <li sec:authorize="hasRole('GESTOR')">Selecciona a qué programador asignar el error. Solo podrás
+                        asignar el error a un programador que figure como colaborador en ese proyecto. También es
+                        posible no asignarlo a ningún colaborador.</li>
+                    <li>Si lo deseas, añade un archivo adjunto con el botón "Añadir adjunto".</li>
+                    <li>Presiona el botón "Crear informe".</li>
+                </ol>
+                <p>¡Listo! Tu informe de error ha sido creado.</p>
+
+            </div>
+        </div>
+        <script>
+
+            document
+                .getElementById("proyecto")
+                .addEventListener("change", function () {
+                    var nombreProyecto = this.value;
+                    fetch("/getCollaborators?nombreProyecto=" + nombreProyecto, {
+                        credentials: "include",
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            var select = document.getElementById("programmerUsername");
+                            // Primero, borra todas las opciones excepto la primera
+                            for (var i = select.options.length - 1; i >= 1; i--) {
+                                select.remove(i);
+                            }
+                            // Luego, añade las nuevas opciones
+                            data.forEach(function (collaborator) {
+                                var option = document.createElement("option");
+                                option.value = collaborator;
+                                option.text = collaborator;
+                                select.add(option);
+                            });
+                        })
+                        .catch((error) => console.error("Error:", error));
+                });
+
+            function updateFileDetails() {
+                var fileInput = document.getElementById("adjunto");
+                var filePathInput = document.getElementById("rutaArchivo");
+                var fileNameInput = document.getElementById("nombreArchivo");
+                var fileInfo = document.getElementById("fileInfo");
+
+                // Verifica el tamaño del archivo
+                var fileSize = fileInput.files[0].size / 1024 / 1024; // en MB
+                if (fileSize > 5) {
+                    alert("El archivo debe ser menor de 5 MB.");
+                    fileInput.value = ""; // borra el archivo seleccionado
+                    return;
+                }
+
+                filePathInput.value = fileInput.value;
+                fileNameInput.value = fileInput.files[0].name;
+
+                fileInfo.innerHTML =
+                    "📄 " +
+                    fileInput.files[0].name +
+                    ' <a href="#" onclick="removeAttachment()">Quitar</a>';
+            }
+
+            function removeAttachment() {
+                var fileInput = document.getElementById("adjunto");
+                var filePathInput = document.getElementById("rutaArchivo");
+                var fileNameInput = document.getElementById("nombreArchivo");
+                var fileInfo = document.getElementById("fileInfo");
+                // Borra el archivo seleccionado y la información del archivo
+                fileInput.value = "";
+                filePathInput.value = "";
+                fileNameInput.value = "";
+                fileInfo.innerHTML = "";
+            }
+            $(document).ready(function () {
+                $("#titulo").focus();
+            });
+
+            document.querySelector('.printDate').innerText = new Date().toLocaleString();
+
+            function toggleNav() {
+                let guiaUsuario = document.getElementById("guiaUsuario");
+                if (guiaUsuario.style.width === "375px") {
+                    guiaUsuario.style.width = "0";
+                    document.getElementById("contenidoPagina").style.marginRight = "0";
+                } else {
+                    guiaUsuario.style.width = "375px";
+                    document.getElementById("contenidoPagina").style.marginRight = "375px";
+                }
+            }
+
+            function closeNav() {
+                document.getElementById("guiaUsuario").style.width = "0";
+                document.getElementById("contenidoPagina").style.marginRight = "0";
+            }
+
+            document.getElementById('guiaUsuario').addEventListener('wheel', function (e) {
+                e.preventDefault();
+                this.scrollTop += e.deltaY;
+            });
+        </script>
+    </div>
+</body>
+
+</html>

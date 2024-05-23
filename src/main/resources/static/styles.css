@@ -1,0 +1,339 @@
+body {
+  margin: 50px !important;
+  background: linear-gradient(to bottom, #007bff, #00dbfe);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  background-color: #ffffff;
+}
+
+table td,
+table th {
+  border: 1px solid #ddd;
+  padding: 6px;
+}
+
+.table-wrapper {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 20px auto auto auto;
+}
+
+th {
+  border: 1px solid #ddd;
+  font-weight: bold;
+  padding: 8px;
+  background-color: #d8ecff;
+}
+
+.menu {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+
+  :hover {
+    text-decoration: underline;
+    color: white;
+  }
+}
+
+.titulo {
+  color: black !important;
+  text-decoration: underline !important;
+  font-size: 1rem;
+}
+
+.menu a {
+  color: white;
+  text-decoration: underline;
+  font-size: 1rem;
+
+  :hover {
+    text-decoration: underline;
+    font-weight: bold;
+    color: white;
+  }
+}
+
+.error {
+  color: red;
+  margin-top: 5px;
+}
+
+.body-boxed {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.body-boxed-wide {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.logo {
+  display: block;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+.logo-peq-esquina {
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+  margin: -30px 0 0 -30px;
+}
+
+.formulario {
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-usuario {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  color: white;
+}
+
+a:hover {
+  text-decoration: none !important;
+}
+
+th {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.elementos-busqueda {
+  height: 40px;
+  margin: 0 0 0 5px;
+  padding: 0 5px;
+}
+
+.contenedor-busqueda {
+  display: flex;
+  align-items: center;
+}
+
+.contenedor-fila-superior {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.table-wrapper {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 20px auto auto auto;
+}
+
+.mark,
+mark {
+  padding: 0 !important;
+  background-color: #ff0 !important;
+  display: inline;
+}
+
+.btn-limpiar {
+  padding-left: 10px;
+}
+
+.eliminarUsuarioBtn,
+.resetPasswordBtn {
+  font-size: 0.8rem;
+}
+
+#tablaUsuarios td {
+  line-height: 1rem;
+}
+
+.guia-lateral {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.guia-lateral p {
+  padding: 8px 20px 8px 32px;
+  text-decoration: none;
+  display: block;
+  transition: 0.3s;
+}
+
+.guia-lateral li {
+  padding: 8px 20px 8px 0px;
+  transition: 0.3s;
+}
+
+.guia-lateral .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+#guiaUsuario {
+  background-color: #fe5b0040;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+#guiaUsuario h2 {
+  padding: 8px 8px 8px 32px;
+  font-size: 1.6em;
+  color: black;
+}
+
+#guiaUsuario h3 {
+  padding: 8px 8px 0px 32px;
+  font-size: 1.4em;
+  color: black;
+  font-weight: bolder;
+}
+
+#guiaUsuario h4 {
+  padding: 8px 8px 0px 32px;
+  margin-bottom: 0px;
+  font-size: 1em;
+  color: black;
+}
+
+#guiaUsuario p {
+  font-size: 1em;
+  color: white;
+}
+
+#guiaUsuario li {
+  font-size: 1em;
+  color: white;
+}
+
+.closebtn {
+  color: #FFF;
+}
+
+.enlace-atras {
+  
+  color: white;
+  text-decoration: none;
+}
+
+.enlace-atras:hover {
+  text-decoration: underline;
+  color: white;
+}
+
+.menu .enlace-ayuda {
+  margin-right: -18px;
+  margin-left: -5px;
+  text-decoration: none;
+
+}
+
+.menu .enlace-imprimir {
+  margin-right: -18px;
+  text-decoration: none;
+}
+
+.negrita {
+  font-weight: 700;
+}
+
+.printDate {
+  display: none;
+}
+
+h1 {
+  font-size: 1.5em !important;
+  font-weight: bold !important;
+}
+
+.insignia {
+  font-size: 0.7rem;
+  padding: 5px;
+  background-color: grey;
+  font-weight: bold;
+  color: white;
+  border-radius: 8px;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .imprimible,
+  .imprimible * {
+    visibility: visible;
+  }
+
+  .imprimible {
+    position: absolute;
+  }
+
+  .logo-peq-esquina {
+    right: 0px;
+    top: 50px;
+  }
+
+  h1 {
+    left: 30px;
+    top: 80px;
+  }
+
+  .table-wrapper {
+    top: 150px;
+    left: 30px;
+    right: 30px;
+  }
+
+  .printDate {
+    display: block;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    visibility: visible;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+  }
+
+  .no-imprimir {
+    display: none;
+  }
+
+  .formulario.imprimible {
+    position: relative;
+    margin: auto;
+    width: fit-content;
+  }
+}
